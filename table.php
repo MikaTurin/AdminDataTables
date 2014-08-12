@@ -1,5 +1,5 @@
 <?php
-$r = $this->readData(); //you data returned
+$r = $this->readData(); //you data returned as array
 $a = new stdClass();
 $a->aaData = $r;
 
