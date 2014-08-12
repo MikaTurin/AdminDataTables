@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Orders</title>
+
+	<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/redmond/jquery-ui.css" />
+    <link type="text/css" rel="stylesheet" href="table.css" />
+
+	<style>
+        body { font-size:11px; }
+		.txt10 { font-size:10px; }
+		.txt10 table.dataTable thead th { font-size:10px; }
+        .container { max-width: 1200px;  }
+        table.dataTable td { padding: .3em .4em; color:#496379; }
+        tfoot input { width:100%; padding:1px 2px; box-sizing:border-box; }
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery-ui-i18n.min.js"></script><!-- can be ommited, if language EN is used-->
+    <script src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+
+	<div class="container txt10">
+
+    от:&nbsp;<input type="text" value="2014-07-10" id="dateFrom">
+    до:&nbsp;<input type="text" value="2014-08-09" id="dateTo">
+    статус:&nbsp;<input type="text" value="" name="status" id="status" maxlength="3" style="width:40px">
+    <button id="button-search">Search</button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>View</th>
+            <th>Sale ID</th>
+            <th>User ID</th>
+            <th>Book ID</th>
+            <th>Unique ID</th>
+            <th>Created</th>
+            <th>Issued</th>
+            <th>Status</th>
+            <th>Errors</th>
+            <th>Carrier & PCC</th>
+            <th>Price</th>
+            <th>Locator</th>
+            <th>Route</th>
+            <th>Dateto</th>
+            <th>Dateback</th>
+            <th>Passengers</th>
+            <th>IP</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>View</th>
+            <th>Sale ID</th>
+            <th>User ID</th>
+            <th>Book ID</th>
+            <th>Unique ID</th>
+            <th>Created</th>
+            <th>Issued</th>
+            <th>Status</th>
+            <th>Errors</th>
+            <th>Carrier & PCC</th>
+            <th>Price</th>
+            <th>Locator</th>
+            <th>Route</th>
+            <th>Dateto</th>
+            <th>Dateback</th>
+            <th>Passengers</th>
+            <th>IP</th>
+        </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    // Setup - add a text input to each footer cell
+    $('table tfoot th').each( function () {
+        var title = $('table thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" class="txt10" placeholder="'+title+'" />' );
+    } );
+
+	var oTable= $('table').DataTable({
+		pagingType   	: "full_numbers",
+		pageLength		: 15,
+		processing		: true,
+		ajax 			: 'table.json',
+		aLengthMenu		: [[15, 30, 10000], [15, 30, 'all']],
+		"fnServerParams"		: function(aoData){
+			aoData.push(
+				{
+					name		: 'dateFrom',
+					value		: $('#dateFrom').val()
+				},
+				{
+					name		: 'dateTo',
+					value		: $('#dateTo').val()
+				},
+				{
+					name        : 'status',
+					value       : $('#status').val()
+				}
+			);
+		}
+	});
+
+	oTable.order([[0, 'desc']]);
+
+    // Apply the filter
+    oTable.columns().eq( 0 ).each( function ( colIdx ) {
+        $( 'input', oTable.column( colIdx ).footer() ).on( 'keyup change', function () {
+            oTable
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+        } );
+    });
+
+	$('#button-search').on('click', function(){
+		oTable.ajax.reload();
+	});
+
+
+
+	$('#dateFrom , #dateTo').datepicker(
+        $.extend(
+            {},
+            $.datepicker.regional['ru'],
+            {
+                dateFormat	: "yy-mm-dd",
+                minDate		: -1200,
+                maxDate		: 0,
+                changeMonth : true,
+                changeYear : true,
+                firstDay: 1,
+                onSelect	: function() {},
+                beforeShow	: function(input, a , b) {}
+            }
+    ));
+
+});
+</script>
+
+</body>
+</html>
