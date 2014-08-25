@@ -122,17 +122,14 @@ table.dataTable tfoot th em {
 .sorting {
 	cursor: pointer;
 
-	background: url('../../img/yto/sort_both.png') no-repeat center right;
-	background-color: #f4f9fe;
+	background: #f4f9fe url('../../img/yto/sort_both.png') no-repeat center right;
 }
 .sorting_asc {
-	background: url('../../img/yto/sort_asc.png') no-repeat center right;
-	background-color: #f4f9fe;
+	background: #f4f9fe url('../../img/yto/sort_asc.png') no-repeat center right;
 }
 
 .sorting_desc {
-	background: url('../../img/yto/sort_desc.png') no-repeat center right;
-	background-color: #f4f9fe;
+	background: #f4f9fe url('../../img/yto/sort_desc.png') no-repeat center right;
 }
 
 .dataTables_processing {
@@ -150,7 +147,7 @@ table.dataTable tfoot th em {
 	font-size: 14px;
 	background-color: white;
 	opacity: 1;
-	box-shadow: 0px 0px 8px 4px #666;
+	box-shadow: 0 0 8px 4px #666;
 }
 
 
